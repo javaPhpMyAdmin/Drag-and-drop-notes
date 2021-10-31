@@ -1,37 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import AllNotes from './components/AllNotes'
 import CreateNote from './components/CreateNote'
 import ImportantNotes from './components/ImportantNotes'
 import './index.css'
+import { load_notes } from './Redux/actions/notes.actions'
+import { storee } from './Redux/Store'
 
-const App = () => {
-    const [notes, setNotes] = useState([])
+const App = ({ loading }) => {
 
-    const createNote = (newNote) => {
-        setNotes([...notes, newNote])
-    }
-
-    const toogleNote = (id) => {
-
-        const aux_notes = notes.slice()
-        const index_note = aux_notes.findIndex((note) => note.id === id)
-        const find_note = aux_notes[index_note]
-        const aux_find_note = { ...find_note, isImportant: !find_note.isImportant }
-
-        aux_notes[index_note] = aux_find_note
-
-        setNotes(aux_notes)
-    }
+    useEffect(() => {
+        storee.dispatch(load_notes())
+    }, [])
 
     return (
         <div className='container mt-3 p-3'>
-            <CreateNote createNote={createNote} />
+            <CreateNote />
             <hr />
-            <ImportantNotes notes={notes} toogleNote={toogleNote} />
+            {
+                loading &&
+                <div className='text-center'>
+                    <div className='spinner-border my-3'></div>
+                </div>
+            }
+            <ImportantNotes />
             <hr />
-            <AllNotes notes={notes} toogleNote={toogleNote} />
+            <AllNotes />
         </div>
     )
 }
 
-export default App
+const mapStateToProps = (state) => ({
+    loading: state.notesReducer.loading,
+})
+
+export default connect(mapStateToProps)(App)

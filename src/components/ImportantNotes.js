@@ -19,10 +19,8 @@ const ImportantNotes = ({ notes }) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    const { notes } = state
-
-    return { notes }
-}
+const mapStateToProps = (state) => ({
+    notes: state.notesReducer.notes
+})
 
 export default connect(mapStateToProps)(ImportantNotes)

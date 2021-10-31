@@ -1,11 +1,13 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import notesReducer from "./notes.reducer";
+import notesReducer from "./reducers/notes.reducer";
 import thunk from "redux-thunk";
 
 const middleware = [thunk]
 
+const rootReducer = combineReducers({ notesReducer })
+
 export const storee = createStore(
-    notesReducer,
+    rootReducer,
     composeWithDevTools(applyMiddleware(...middleware))
 )
