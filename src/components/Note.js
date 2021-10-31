@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { toogleNote } from '../Redux/actions/notes.actions'
 
 const Note = ({ data: { date, note, isImportant, id }, toogleNote }) => {
 
@@ -16,11 +17,4 @@ const Note = ({ data: { date, note, isImportant, id }, toogleNote }) => {
     )
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return ({
-        // dispatching plain actions
-        toogleNote: (id) => dispatch({ type: 'CHANGE_IMPORTANT', payload: id }),
-    })
-}
-
-export default connect(null, mapDispatchToProps)(Note)
+export default connect(null, { toogleNote })(Note)

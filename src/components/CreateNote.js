@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { add_new_note } from '../Redux/actions/notes.actions'
 
-const CreateNote = ({ addNote }) => {
+const CreateNote = () => {
 
     const [note, setNote] = useState('')
+
+    const dispatch = useDispatch()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -13,7 +16,7 @@ const CreateNote = ({ addNote }) => {
             date: new Date().toJSON().slice(0, 10),
             isImportant: false,
         }
-        addNote(data)
+        dispatch(add_new_note(data))
         setNote('')
     }
 
@@ -35,11 +38,5 @@ const CreateNote = ({ addNote }) => {
     )
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return ({
-        // dispatching plain actions
-        addNote: (data) => dispatch({ type: 'ADD_NOTE', payload: data }),
-    })
-}
-
-export default connect(null, mapDispatchToProps)(CreateNote)
+// export default connect(null, { add_new_note })(CreateNote)
+export default CreateNote
